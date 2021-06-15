@@ -1,0 +1,63 @@
+#!/bin/bash
+set -o errexit
+
+BASE_URL=dev-shop.cbi.ie
+ES_HOST=elasticsearch
+ES_PORT=9200
+
+MYSQL_HOST=database
+MYSQL_DATABASE=magento
+MYSQL_PASSWORD=root
+MYSQL_USER=root
+
+MAGENTO_ADMIN_USER="admin"
+MAGENTO_ADMIN_FRONTNAME="admin"
+MAGENTO_ADMIN_FIRST_NAME="admin"
+MAGENTO_ADMIN_LAST_NAME="admin"
+MAGENTO_ADMIN_EMAIL=admin@gmail.com
+MAGENTO_ADMIN_PASSWORD=Admin123
+MAGENTO_LOCALE=en_IE
+MAGENTO_CURRENCY=EUR
+MAGENTO_TIMEZONE=Europe/Dublin
+
+#bin/stop
+#docker-compose -f docker-compose.yml up -d
+#[ $? != 0 ] && echo "Failed to start Docker services" && exit
+
+bin/clinotty bin/magento setup:install \
+  --db-host="$MYSQL_HOST" \
+  --db-name="$MYSQL_DATABASE" \
+  --db-user="$MYSQL_USER" \
+  --db-password="$MYSQL_PASSWORD" \
+  --base-url=https://"$BASE_URL"/ \
+  --base-url-secure=https://"$BASE_URL"/ \
+  --backend-frontname="$MAGENTO_ADMIN_FRONTNAME" \
+  --admin-firstname="$MAGENTO_ADMIN_FIRST_NAME" \
+  --admin-lastname="$MAGENTO_ADMIN_LAST_NAME" \
+  --admin-email="$MAGENTO_ADMIN_EMAIL" \
+  --admin-user="$MAGENTO_ADMIN_USER" \
+  --admin-password="$MAGENTO_ADMIN_PASSWORD" \
+  --language="$MAGENTO_LOCALE" \
+  --currency="$MAGENTO_CURRENCY" \
+  --timezone="$MAGENTO_TIMEZONE" \
+  --cache-backend=redis \
+  --cache-backend-redis-server=redis \
+  --cache-backend-redis-db=0 \
+  --page-cache=redis \
+  --page-cache-redis-server=redis \
+  --page-cache-redis-db=1 \
+  --session-save=redis \
+  --session-save-redis-host=redis \
+  --session-save-redis-log-level=4 \
+  --session-save-redis-db=2 \
+  --use-rewrites=1 -vvv \
+  --cleanup-database
+
+echo "Turning on developer mode.."
+bin/clinotty bin/magento deploy:mode:set developer
+
+echo "Clearing the cache to apply updates..."
+bin/clinotty bin/magento cache:flush
+
+echo "Docker development environment setup complete."
+echo "You may now access your Magento instance at https://${BASE_URL}/"

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+[ -z "$1" ] && echo "Please specify the container name" && exit
+
+SERVICE_NAME=$1
+
+echo "Copying the mutagen agent to container"
+
+docker exec "$SERVICE_NAME" mkdir -p /root/.mutagen/agents/0.11.8
+docker cp ~/bin/mutagen-agent "$SERVICE_NAME":/root/.mutagen/agents/0.11.8/
+
+echo "Finished"
