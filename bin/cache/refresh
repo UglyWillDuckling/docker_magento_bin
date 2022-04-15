@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+if [ "$1" ]; then
+    bin/mage cache:flush "$1"
+    bin/mage
+    exit;
+fi
+
+bin/redis/flushdb 0
+bin/varnish/purge
+
+bin/mage

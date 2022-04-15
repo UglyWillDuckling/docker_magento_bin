@@ -1,0 +1,3 @@
+# !/bin/bash
+
+cd /var/www/html/vendor/monsoon/project-quality && npm i --loglevel=error --no-audit; cd /var/www/html/vendor/monsoon/project-quality && npm -s run jscs --

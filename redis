@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-
-#!/bin/bash
-cd .docker && docker-compose exec redis "$@"

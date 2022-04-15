@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Copyright © Monsoon Consulting. All rights reserved.
+# See LICENSE_MONSOON.txt for license details
+#
+
+set -e
+
+#!/bin/bash
+cd .docker && docker-compose exec redis "$@"

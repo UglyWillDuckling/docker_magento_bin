@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+bin/cli vendor/bin/cache-clean.js --watch '$@'

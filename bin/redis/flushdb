@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Copyright © Monsoon Consulting. All rights reserved.
+# See LICENSE_MONSOON.txt for license details
+#
+
+set -e
+
+[ -z "$1" ] && echo "Please specify the redis db to flush" && exit
+
+echo "Flushing redis db $1"
+
+bin/redis/cli redis-cli -n "$1" FLUSHDB

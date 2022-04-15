@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+printf 'Purging the Varnish Cache\n'
+
+bin/varnish/cli varnishadm "ban req.url ~ /"

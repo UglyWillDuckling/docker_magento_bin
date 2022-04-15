@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" ]; then
+    cd .docker/ && docker-compose restart "$1"
+    exit;
+fi
+
+bin/stop
+bin/start
