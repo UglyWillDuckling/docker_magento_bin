@@ -1,4 +1,0 @@
-#!/bin/bash
-set -e
-
-magento-cloud ssh --project gdoput2qshj5q "$@" -e staging

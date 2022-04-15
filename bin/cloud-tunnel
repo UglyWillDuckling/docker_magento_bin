@@ -1,4 +1,0 @@
-#!/bin/bash
-set -e
-
-magento-cloud tunnel:open --project gdoput2qshj5q "$@"
